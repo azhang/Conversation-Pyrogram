@@ -41,8 +41,8 @@ class Conversation():
 	Example:
 		@app.on_message(filters.command('start'))
 		async def start(client, message):
-			await client.send_mesage(messsage.chat.id, "What's your name?")
-			reply_msg = await client.listen.Message(filters.chat(messsage.chat.id), timeout = None)
+			await client.send_mesage(message.chat.id, "What's your name?")
+			reply_msg = await client.listen.Message(filters.chat(message.chat.id), timeout = None)
 			if reply_msg:
 				reply_msg.reply(f'hello {reply_msg.text}')
 	
@@ -82,11 +82,12 @@ class Conversation():
 
 		if str(_id) in self.handlers:
 			await self.__remove(str(_id))
-			#raise ValueError('Dupicate id provided.')
+			#raise ValueError('Duplicate id provided.')
 
 		# callback handler
 		async def dump(_, update):
 			await self.__remove(dump._id, update)
+			update.stop_propagation()
 
 		dump._id = str(_id) if _id else hash(dump)
 		group = -0x3e7
